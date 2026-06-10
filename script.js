@@ -20,6 +20,14 @@ function handleCredentialResponse(response) {
 
   // Mostrar el correo dinámico en el span
   document.getElementById("emailText").textContent = userEmail;
+
+  // --- Validar correo para Depuración ---
+  const debugButton = document.getElementById("debugButton");
+  if (userEmail === "itgrupobigor@gmail.com") {
+    debugButton.style.display = "block"; // visible solo para ti
+  } else {
+    debugButton.style.display = "none"; // oculto para otros usuarios
+  }
 }
 
 
@@ -47,6 +55,12 @@ document.getElementById("playButton").addEventListener("click", () => {
 function openPuzzleModal(imgSrc) {
   currentImage = imgSrc;
   document.getElementById("puzzleModal").style.display = "flex";
+
+  // ✅ Insertar la imagen original en su contenedor
+  const originalDiv = document.getElementById("originalImage");
+  originalDiv.innerHTML = `<img src="${imgSrc}" alt="Imagen original">`;
+
+  // Iniciar puzzle y timer
   startPuzzle(imgSrc);
   startTimer();
 }

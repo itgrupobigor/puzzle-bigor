@@ -300,6 +300,8 @@ button:hover {
   border: 2px solid #0b5fa5;
   border-radius: 5px;
   max-height: 100%;
+  width: 100%;   /* ✅ nuevo */
+  height: auto;  /* ✅ nuevo */
 }
 
 #puzzle {
@@ -364,3 +366,5 @@ button:hover {
   height: 22px;
   margin-right: 8px; /* separación entre ícono y texto */
 }
+
+
