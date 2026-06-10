@@ -1,0 +1,366 @@
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f5f5f5;
+  margin: 0;
+  overflow: hidden;
+}
+
+h1, h2, h3 {
+  margin: 10px 0;
+}
+
+/* Contenedor general */
+#login {
+  text-align: center;
+  margin-top: 60px;
+}
+
+/* Títulos */
+#login h1 {
+  margin-bottom: 25px; /* más separación debajo del título principal */
+}
+
+#login h2 {
+  margin-top: 10px;
+  margin-bottom: 50px; /* más separación debajo del subtítulo */
+}
+
+/* Botón de Google */
+.g_id_signin {
+  width: 320px !important; /* mismo ancho */
+  margin: 0 auto 20px auto; /* centrado y separación inferior */
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: 22px !important; /* aumenta tamaño de texto */
+}
+
+/* Contenedor del Botón de Google */
+#googleBtnContainer {
+  width: 100%;
+  max-width: 320px;         /* Mismo ancho exacto que tus otros elementos */
+  margin: 0 auto 20px auto; /* Centrado y separación inferior igual a la que tenías */
+  display: block;
+  /* El box-shadow lo dejamos aquí para que envuelva elegantemente al botón */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); 
+  border-radius: 4px;       /* El botón de Google por defecto es sutilmente curvo */
+}
+
+/* Campo de nombre */
+#playerName {
+  width: 300px; /* mismo ancho */
+  padding: 10px;
+  border: 2px solid #0b5fa5;
+  border-radius: 8px;
+  font-size: 20px;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s ease;
+  margin: 15px auto 20px auto; /* separación superior e inferior */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#playerName:focus {
+  border-color: #094b84;
+  box-shadow: 0 0 8px rgba(11,95,165,0.4);
+}
+
+/* Botón Jugar */
+#playButton {
+  display: block;
+  margin: 10px auto 0 auto;
+  background: linear-gradient(90deg, #ff7b00, #ff9a3c);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 20px; /* más alto para compensar el texto */
+  font-size: 22px; /* aumenta tamaño de texto */
+  cursor: pointer;
+  width: 320px; /* mismo ancho */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.3s ease;
+}
+
+#playButton:hover {
+  background: linear-gradient(90deg, #e56d00, #ff7b00);
+}
+
+#playButton:active {
+  transform: scale(0.95);
+}
+
+#playButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Título principal */
+#mainScreen h1 {
+  margin-top: 40px;
+  margin-bottom: 25px; /* más espacio debajo del título */
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Texto de bienvenida */
+#mainScreen h2 {
+  margin-top: 10px;
+  margin-bottom: 20px; /* más espacio debajo del “Bienvenido” */
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Texto “Selecciona una imagen” */
+#mainScreen h3 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 35px; /* más espacio entre el texto y las imágenes */
+  font-size: 20px;
+}
+
+/* Imágenes más grandes y con efecto */
+#images img {
+  width: 250px; /* aumenta el tamaño */
+  height: auto;
+  margin: 0 20px; /* separación horizontal */
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+} 
+
+#images img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Botón de salida en pantalla principal */
+.exit-btn {
+  display: block;
+  margin: 30px auto;
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.exit-btn:hover {
+  background-color: #a93226;
+}
+
+/* Modal puzzle */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1000px;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Controles superiores */
+#controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 50px; /* más separación respecto al texto de movimientos */
+}
+
+/* Texto de movimientos y tiempo */
+#status {
+  text-align: center;
+  font-weight: 600;
+  font-size: 30px; /* texto más grande */
+  margin-top: 20px;
+}
+
+/* Etiqueta de movimientos */
+#moveLabel {
+  margin-right: 20px; /* separación entre palabra y número */
+}
+
+/* Número de movimientos */
+#moveCount {
+  display: inline-block;
+  min-width: 50px; /* espacio fijo para números grandes */
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  color: #0b5fa5;
+}
+
+/* Controles visibles SOLO dentro del modal */
+.modal-content #controls {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #0b5fa5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #094b84;
+}
+
+/* Contenedor puzzle */
+#gameContainer {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex: 1;
+  align-items: center;
+}
+
+/* Botón Salir centrado debajo del puzzle */
+#exitContainer {
+  text-align: center;
+  margin-top: 25px;
+}
+
+#resetButton {
+  background-color: #029cdd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.3s ease;
+}
+
+#resetButton:hover {
+  background-color: #0277b2;
+}
+
+#resetButton:active {
+  transform: scale(0.95);
+}
+
+/* Ícono dentro del botón Reiniciar */
+#resetButton img {
+  width: 22px; /* ícono más grande */
+  height: 22px;
+}
+
+#exitButton {
+  background-color: #b33a3a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.3s ease;
+}
+
+#exitButton:hover {
+  background-color: #a12f2f;
+}
+
+#exitButton:active {
+  transform: scale(0.95);
+}
+
+#originalImage img {
+  border: 2px solid #0b5fa5;
+  border-radius: 5px;
+  max-height: 100%;
+}
+
+#puzzle {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 2px;
+}
+
+.piece {
+  border: 1px solid #ccc;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.empty {
+  background: #eee;
+  cursor: default;
+}
+
+/* Confeti */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10000;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0.9;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Correo electrónico con estilo */
+#playerEmail {
+  display: inline-flex;
+  align-items: center;
+  background-color: #eaf2f8;
+  color: #0b5fa5;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.gmail-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 8px; /* separación entre ícono y texto */
+}

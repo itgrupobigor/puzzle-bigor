@@ -1,0 +1,7 @@
+data-client_id="TU_CLIENT_ID.apps.googleusercontent.com"
+489201833844-a9tufpillini7uvi2ihjmv0abhda6cjf.apps.googleusercontent.com
+
+const scriptURL = "TU_WEB_APP_URL"; // URL de tu Google Apps Script
+https://script.google.com/macros/s/AKfycbyBjYM4979G0AjngnqKiw0SgHrqMezl07BLXa6dRaM9RQ0oXzClpTMT8WJ6n5wIts68tQ/exec
+
+python -m http.server 5500
