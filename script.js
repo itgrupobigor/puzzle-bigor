@@ -11,43 +11,45 @@ let seconds = 0;
 document.getElementById("playButton").disabled = true;
 
 // --- LOGIN ---
-function handleCredentialResponse(response) {
-  const data = jwt_decode(response.credential);
-  userEmail = data.email;
+// Esta función se ejecuta automáticamente cuando Google devuelve la respuesta de autenticación.
+function handleCredentialResponse(response) { // El parámetro response contiene el token JWT con los datos del usuario.
+  const data = jwt_decode(response.credential); // El resultado (data) es un objeto con información del usuario (correo, nombre, etc.).
+  userEmail = data.email; // Extrae el correo electrónico del objeto data y lo guarda en la variable global userEmail.
 
   // Habilitar el botón Jugar después del login
-  document.getElementById("playButton").disabled = false;
+  document.getElementById("playButton").disabled = false; // Busca el botón con id playButton y lo habilita (disabled = false).
 
   // Mostrar el correo dinámico en el span
-  document.getElementById("emailText").textContent = userEmail;
+  document.getElementById("emailText").textContent = userEmail; // Busca el elemento con id emailText y coloca dentro el correo del usuario.
 
   // --- Validar correo para Depuración ---
-  const debugButton = document.getElementById("debugButton");
-  if (userEmail === "itgrupobigor@gmail.com") {
-    debugButton.style.display = "block"; // visible solo para ti
+  const debugButton = document.getElementById("debugButton"); // Obtiene el botón de depuración (id debugButton) para poder manipularlo.
+  if (userEmail === "itgrupobigor@gmail.com") { // Si el correo del usuario es tu correo personal (itgrupobigor@gmail.com), el botón de depuración se muestra (display = "block").
+    debugButton.style.display = "block"; // Visible solo para ti
   } else {
-    debugButton.style.display = "none"; // oculto para otros usuarios
+    debugButton.style.display = "none"; // Si es cualquier otro correo, el botón se oculta (display = "none").
   }
 }
 
-
-document.getElementById("playButton").addEventListener("click", () => {
-  playerName = document.getElementById("playerName").value.trim() || "SinNombre";
-
+// -- - BOTÓN JUGAR ---
+// Busca el elemento en el HTML con id="playButton" (el botón “Jugar”).
+document.getElementById("playButton").addEventListener("click", () => { // Le agrega un escuchador de eventos: cuando el usuario haga clic en ese botón, se ejecuta la función flecha () => { ... }.
+  playerName = document.getElementById("playerName").value.trim() || "SinNombre"; // Obtiene el valor escrito en el campo de texto con id="playerName".
+                                                                                  // .trim() elimina espacios en blanco al inicio y al final.
   if (!userEmail) {
-    alert("Primero inicia sesión con tu cuenta de Google.");
-    return;
+    alert("Primero inicia sesión con tu cuenta de Google."); // Verifica si la variable userEmail está vacía (es decir, el usuario no inició sesión con Google).
+    return; // Si no hay correo, muestra un mensaje de alerta y detiene la ejecución con return.
   }
 
   // Guardar datos en etiquetas visibles
-  document.getElementById("playerLabel").innerText = playerName;
+  document.getElementById("playerLabel").innerText = playerName; // Coloca el nombre del jugador en el elemento con id="playerLabel".
 
   // ✅ Mantener el ícono y solo actualizar el texto dinámico
-  document.getElementById("emailText").textContent = userEmail;
+  document.getElementById("emailText").textContent = userEmail; // Actualiza el contenido del span con el correo electrónico del usuario.
 
   // Cambiar de pantalla
-  document.getElementById("login").style.display = "none";
-  document.getElementById("mainScreen").style.display = "block";
+  document.getElementById("login").style.display = "none"; // Oculta la sección de login (ya no se ve en pantalla).
+  document.getElementById("mainScreen").style.display = "block"; // Muestra la sección principal del juego.
 });
 
 
