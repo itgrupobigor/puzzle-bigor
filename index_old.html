@@ -1,0 +1,113 @@
+<!DOCTYPE html> <!--   Indica que el documento es HTML5.       -->
+<html lang="es"> <!--   Define el idioma principal como español (útil para accesibilidad y SEO).       -->
+<head>
+  <meta charset="UTF-8"> <!--   Define la codificación de caracteres como UTF-8 (soporta acentos y caracteres especiales).      -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--   Ajusta la visualización en dispositivos móviles (responsive design).      -->
+  <meta name="referrer" content="no-referrer-when-downgrade"> <!--   Controla cómo se envía la cabecera referrer al navegar entre sitios (más privacidad).      -->
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups"> <!--   Política de seguridad que controla cómo se abren ventanas emergentes en relación al origen.       -->
+  <title>Rompecabezas Grupo Bigor</title> <!-- Título que aparece en la pestaña del navegador.       -->
+  <link rel="stylesheet" href="style.css"> <!--  Vincula el archivo CSS externo para estilos.     -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script> <!-- async defer → carga el script sin bloquear la página.     -->
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script> <!--  Librería para decodificar tokens JWT (Google devuelve uno al autenticar).    -->
+  <link rel="icon" href="images/Logo BIGOR-01.png" type="image/png"> <!-- Define el ícono de la pestaña (favicon).     -->
+</head>
+<body>
+
+  <!-- 🔹 Vista Login -->
+  <div id="login">
+    <h1 id="gameTitle"></h1>
+    <h2>Inicia sesión con tu cuenta de Google</h2>
+    
+    <div id="googleBtnContainer"></div>
+    
+    <input type="text" id="playerName" placeholder="Nombre de jugador">
+    <button id="playButton" disabled>Jugar</button>
+  </div>
+
+  <!-- 🔹 Vista Principal -->
+  <div id="mainScreen" style="display:none;">
+    <h1 id="mainTitle"></h1>
+    <h2>Bienvenido <span id="playerLabel"></span></h2>
+    <p id="playerEmail">
+      <img src="images/gmail_icon.png" alt="Gmail" class="gmail-icon">
+      <span id="emailText"></span>
+    </p>
+    
+    <div id="images">
+      <h3>Selecciona una imagen:</h3>
+      </div>
+    <button id="exitMain" class="exit-btn" onclick="exitToLogin()">Salir del juego</button>
+  </div>
+
+  <!-- 🔹 Vista Puzzle -->
+  <div id="puzzleModal" class="modal">
+    <div class="modal-content">
+      <div id="controls">
+        <button id="resetButton" onclick="resetPuzzle()">🔄 Reiniciar</button>
+        <button id="exitButton" onclick="exitPuzzle()">Salir del juego</button>
+        <button id="debugButton" style="display:none" onclick="debugPuzzle()">Depurar: dejar 1 pieza</button>
+      </div>
+
+      <div id="status">
+        <span id="moveLabel">Movimientos:</span>
+        <span id="moveCount">0</span>
+      </div>
+
+      <div id="gameContainer">
+        <div id="originalImage"></div>
+        <div id="puzzle"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    // --- EVENTOS ---
+    window.onload = () => {
+      // Inicializar títulos desde config.js
+      document.getElementById("gameTitle").innerText = GAME_TITLE;
+      document.getElementById("mainTitle").innerText = GAME_TITLE;
+
+      // 🔹 Inicialización limpia y ÚNICA por JavaScript
+      google.accounts.id.initialize({
+        client_id: "489201833844-a9tufpillini7uvi2ihjmv0abhda6cjf.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+        use_fedcm: false // Desactiva FedCM de raíz para evitar errores en Chrome/Incógnito
+      });
+
+      // Renderizar el botón dentro de nuestro contenedor limpio
+      google.accounts.id.renderButton(
+        document.getElementById("googleBtnContainer"),
+        { 
+          theme: "outline", 
+          size: "large",      // 🔹 Hace que el botón y su fuente cobren el tamaño máximo permitido por Google
+          type: "standard",
+          width: "320"        // 🔹 Le dice a la API de Google que dibuje el botón internamente a 320px exactos
+        }
+      );
+
+      // Deshabilitamos el prompt flotante automático (One Tap) para evitar conflictos en LocalHost
+      // google.accounts.id.prompt(); 
+  
+      // Insertar imágenes dinámicamente
+      const imagesDiv = document.getElementById("images");
+      const imgList = [
+        {src: IMG1, alt: "Grupo Bigor"},
+        {src: IMG2, alt: "Suministros Porcinos"},
+        {src: IMG3, alt: "Laboratorios Glins"}
+      ];
+
+      imgList.forEach(img => {
+        const imageElement = document.createElement("img");
+        imageElement.src = img.src;
+        imageElement.alt = img.alt;
+        imageElement.onclick = () => openPuzzleModal(img.src);
+        imagesDiv.appendChild(imageElement);
+      });
+    };
+  </script>
+</body>
+</html>

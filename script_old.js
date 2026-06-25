@@ -7,88 +7,50 @@ let timerInterval;
 let isActive = false;
 let seconds = 0;
 
-// Al cargar la página, deshabilitamos el botón "Jugar" hasta que el usuario escriba su nombre
+// Al cargar la página, deshabilitamos el botón "Jugar" hasta que el usuario inicie sesión
 document.getElementById("playButton").disabled = true;
 
-// --- LOGIN CON NOMBRE ---
-// Escucha cuando el usuario escribe en el campo de texto para validar el botón de Jugar y la depuración
-document.getElementById("playerName").addEventListener("input", (e) => {
-  const nombreCargado = e.target.value.trim();
+// --- LOGIN ---
+// Esta función se ejecuta automáticamente cuando Google devuelve la respuesta de autenticación.
+function handleCredentialResponse(response) { // El parámetro response contiene el token JWT con los datos del usuario.
+  const data = jwt_decode(response.credential); // El resultado (data) es un objeto con información del usuario (correo, nombre, etc.).
+  userEmail = data.email; // Extrae el correo electrónico del objeto data y lo guarda en la variable global userEmail.
 
-  // Habilitar el botón Jugar si el campo no está vacío (mínimo 2 caracteres)
-  if (nombreCargado.length >= 2) {
-    document.getElementById("playButton").disabled = false;
-  } else {
-    document.getElementById("playButton").disabled = true;
-  }
+  // Habilitar el botón Jugar después del login
+  document.getElementById("playButton").disabled = false; // Busca el botón con id playButton y lo habilita (disabled = false).
 
-  // --- Validar nombre para Depuración ---
-  const debugButton = document.getElementById("debugButton");
-  if (nombreCargado.toLowerCase() === "admin") { // Si escribes "admin" como nombre, se muestra el botón de depuración
+  // Mostrar el correo dinámico en el span
+  document.getElementById("emailText").textContent = userEmail; // Busca el elemento con id emailText y coloca dentro el correo del usuario.
+
+  // --- Validar correo para Depuración ---
+  const debugButton = document.getElementById("debugButton"); // Obtiene el botón de depuración (id debugButton) para poder manipularlo.
+  if (userEmail === "itgrupobigor@gmail.com") { // Si el correo del usuario es tu correo personal (itgrupobigor@gmail.com), el botón de depuración se muestra (display = "block").
     debugButton.style.display = "block"; // Visible solo para ti
   } else {
-    debugButton.style.display = "none";  // Para cualquier otro nombre, se oculta
+    debugButton.style.display = "none"; // Si es cualquier otro correo, el botón se oculta (display = "none").
   }
-});
+}
 
-// --- BOTÓN JUGAR ---
+// -- - BOTÓN JUGAR ---
 // Busca el elemento en el HTML con id="playButton" (el botón “Jugar”).
 document.getElementById("playButton").addEventListener("click", () => { // Le agrega un escuchador de eventos: cuando el usuario haga clic en ese botón, se ejecuta la función flecha () => { ... }.
   playerName = document.getElementById("playerName").value.trim() || "SinNombre"; // Obtiene el valor escrito en el campo de texto con id="playerName".
                                                                                   // .trim() elimina espacios en blanco al inicio y al final.
+  if (!userEmail) {
+    alert("Primero inicia sesión con tu cuenta de Google."); // Verifica si la variable userEmail está vacía (es decir, el usuario no inició sesión con Google).
+    return; // Si no hay correo, muestra un mensaje de alerta y detiene la ejecución con return.
+  }
 
   // Guardar datos en etiquetas visibles
   document.getElementById("playerLabel").innerText = playerName; // Coloca el nombre del jugador en el elemento con id="playerLabel".
+
+  // ✅ Mantener el ícono y solo actualizar el texto dinámico
+  document.getElementById("emailText").textContent = userEmail; // Actualiza el contenido del span con el correo electrónico del usuario.
 
   // Cambiar de pantalla
   document.getElementById("login").style.display = "none"; // Oculta la sección de login (ya no se ve en pantalla).
   document.getElementById("mainScreen").style.display = "block"; // Muestra la sección principal del juego.
 });
-
-// Función para verificar si el botón debe estar activo o no
-function verificarInputNombre() {
-  const nombreCargado = document.getElementById("playerName").value.trim();
-
-  if (nombreCargado.length >= 2) {
-    document.getElementById("playButton").disabled = false;
-  } else {
-    document.getElementById("playButton").disabled = true;
-  }
-
-  // Validar si es el administrador para la depuración
-  const debugButton = document.getElementById("debugButton");
-  if (nombreCargado.toLowerCase() === "admin") {
-    debugButton.style.display = "block";
-  } else {
-    debugButton.style.display = "none";
-  }
-}
-
-// Escuchar cuando el usuario escribe manualmente
-document.getElementById("playerName").addEventListener("input", verificarInputNombre);
-
-
-function exitToLogin() {
-  const confirmExit = confirm("¿Seguro que deseas salir del juego?");
-  if (confirmExit) {
-    document.getElementById("mainScreen").style.display = "none";
-    document.getElementById("login").style.display = "block";
-    moves = 0;
-    currentImage = "";
-    const puzzleDiv = document.getElementById("puzzle");
-    const originalImageDiv = document.getElementById("originalImage");
-    if (puzzleDiv) puzzleDiv.innerHTML = "";
-    if (originalImageDiv) originalImageDiv.innerHTML = "<p>Selecciona una imagen para comenzar</p>";
-    
-    // Limpiamos el texto
-    document.getElementById("playerName").value = "";
-    
-    // 🔹 Forzamos la verificación del estado del botón inmediatamente
-    verificarInputNombre();
-    stopTimer();
-  }
-}
-
 
 
 // --- MODAL ---
@@ -342,7 +304,19 @@ function exitPuzzle() {
 }
 
 
-
+function exitToLogin() {
+  const confirmExit = confirm("¿Seguro que deseas salir del juego?");
+  if (confirmExit) {
+    document.getElementById("mainScreen").style.display = "none";
+    document.getElementById("login").style.display = "block";
+    moves = 0;
+    currentImage = "";
+    document.getElementById("puzzle").innerHTML = "";
+    document.getElementById("originalImage").innerHTML = "<p>Selecciona una imagen para comenzar</p>";
+    document.getElementById("playerName").value = "";
+    stopTimer();
+  }
+}
 
 
 // --- ESCAPE KEY ---
