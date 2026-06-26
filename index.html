@@ -35,6 +35,7 @@
   <!-- 🔹 Vista Puzzle -->
   <div id="puzzleModal" class="modal">
     <div class="modal-content">
+      
       <div id="controls">
         <button id="resetButton" onclick="resetPuzzle()">🔄 Reiniciar</button>
         <button id="exitButton" onclick="exitPuzzle()">Salir del juego</button>
@@ -47,8 +48,23 @@
       </div>
 
       <div id="gameContainer">
-        <div id="originalImage"></div>
-        <div id="puzzle"></div>
+        
+        <div id="gameWorkspace">
+          <div id="originalImage"></div>
+          <div id="puzzle"></div>
+        </div>
+
+        <aside id="victorySidebar" class="sidebar">
+          <div class="sidebar-content">
+            <div class="success-icon">✓</div>
+            <h2>¡Puzle Completado!</h2>
+            <p>¡Felicitaciones! Has armado la imagen en <span id="finalMoves">0</span> movimientos.</p>
+            
+            <button id="btnNext" class="btn-primary" onclick="exitPuzzle()">Siguiente Puzle</button>
+            <button id="btnMenu" class="btn-secondary" onclick="exitPuzzle()">Menú Principal</button>
+          </div>
+        </aside>
+
       </div>
     </div>
   </div>

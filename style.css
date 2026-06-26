@@ -370,4 +370,111 @@ button:hover {
 
 
 
+/* Asegura que el contenedor organice el juego y la barra lateral en paralelo */
+#gameContainer {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1200px; /* Ajusta según el tamaño de tus imágenes */
+  margin: 0 auto;
+}
+
+/* Envolvemos la imagen original y el puzzle en un contenedor flexible */
+#gameWorkspace {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Espacio entre imagen de referencia y el puzzle */
+  transition: margin-right 0.4s ease;
+}
+
+/* Estilos de la barra lateral */
+.sidebar {
+  width: 300px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  
+  /* Posicionamiento inicial oculto (fuera de la pantalla a la derecha) */
+  position: absolute;
+  right: -320px; 
+  top: 0;
+  bottom: 0;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+/* Clase que activa la animación desde JavaScript */
+.sidebar.active {
+  right: 0;
+}
+
+/* Contenido interno del panel */
+.sidebar-content {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.success-icon {
+  width: 65px;
+  height: 65px;
+  background-color: #e6f7ed;
+  color: #28a745;
+  border: 2px solid #28a745;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 20px;
+}
+
+.sidebar h2 {
+  color: #2c3e50;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.sidebar p {
+  color: #7f8c8d;
+  font-size: 15px;
+  line-height: 1.4;
+  margin-bottom: 25px;
+}
+
+/* Botones de acción */
+.sidebar .btn-primary, .sidebar .btn-secondary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.sidebar .btn-primary {
+  background-color: #5c6bc0;
+  color: white;
+}
+.sidebar .btn-primary:hover { background-color: #3f51b5; }
+
+.sidebar .btn-secondary {
+  background-color: #f5f6fa;
+  color: #7f8c8d;
+}
+.sidebar .btn-secondary:hover { background-color: #dcdde1; }
+
+
 

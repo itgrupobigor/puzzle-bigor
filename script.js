@@ -248,10 +248,9 @@ function checkWin() {
     const emptyPiece = document.querySelector(".empty");
     if (emptyPiece) emptyPiece.style.backgroundImage = "";
 
-    // 🔹 COLÓCALO AQUÍ (Justo antes de enviar los datos)
     console.log("=== VERIFICACIÓN DE DATOS ANTES DE ENVIAR ===");
     console.log("userEmail:", userEmail);
-    console.log("playerName:", playerName); // 👈 Si aquí te sale "" o undefined, el fallo está en tu JS
+    console.log("playerName:", playerName); 
     console.log("currentImage:", currentImage);
     console.log("moves:", moves);
     console.log("seconds:", seconds);
@@ -262,6 +261,7 @@ function checkWin() {
     // 1️⃣ El confeti inicia inmediatamente sobre el puzzle
     showCelebration(seconds);
 
+    // Formateo del tiempo (mantenemos tu lógica exacta)
     let timeText;
     if (seconds < 60) {
       timeText = `${seconds} segundos`;
@@ -271,50 +271,25 @@ function checkWin() {
       timeText = `${mins} minuto${mins > 1 ? "s" : ""} y ${secs} segundo${secs !== 1 ? "s" : ""}`;
     }
 
-    // 2️⃣ Mostramos SweetAlert con la tecla Escape habilitada
-    Swal.fire({
-      title: "¡Completado! 🎉",
-      text: `Completado en ${moves} movimientos y ${timeText}`,
-      icon: "success",
-      confirmButtonText: "Aceptar",
-      backdrop: "rgba(0, 0, 0, 0.4)",
-      target: document.getElementById("puzzleModal"),
-      allowOutsideClick: false, // Sigue bloqueado el clic afuera para evitar cierres accidentales
-      allowEscapeKey: true      // 🔹 HABILITADO: Permite cerrar con la tecla Escape
-    }).then((result) => {
-      
-      // 3️⃣ EL USUARIO PULSÓ "ACEPTAR" O PRESIONÓ LA TECLA "ESCAPE"
-      // Validamos si se confirmó o si se cerró usando la tecla Escape (esc)
-      if (result.isConfirmed || result.dismiss === Swal.DismissReason.esc) {
-        
-        // A. Detener y borrar el confeti inmediatamente
-        stopConfetti();
+    // 2️⃣ REEMPLAZO DE SWEETALERT: Inyectamos datos y desplegamos el panel lateral
+    
+    // Asignamos los movimientos y el tiempo formateado a las etiquetas del panel lateral
+    document.getElementById("finalMoves").textContent = moves;
+    
+    // Nota: Como en tu HTML pusimos un solo texto, vamos a actualizar el párrafo completo 
+    // para que use tu variable estilizada de tiempo:
+    const textoFelicidades = document.querySelector("#victorySidebar p");
+    if (textoFelicidades) {
+      textoFelicidades.innerHTML = `¡Felicitaciones! Has armado la imagen en <strong>${moves} movimientos</strong> y <strong>${timeText}</strong>.`;
+    }
 
-        // B. Transición de salida de la ventana modal
-        const modal = document.getElementById("puzzleModal");
-        if (modal) {
-          modal.style.transition = "opacity 0.5s ease";
-          modal.style.opacity = "0";
-          
-          setTimeout(() => {
-            modal.style.display = "none";
-            modal.style.opacity = "1"; // Dejar la opacidad restaurada para el próximo juego
+    // Deslizamos el panel lateral añadiendo la clase active
+    const sidebar = document.getElementById("victorySidebar");
+    if (sidebar) sidebar.classList.add("active");
 
-            // C. Mostrar la mainScreen limpia
-            const mainScreen = document.getElementById("mainScreen");
-            if (mainScreen) {
-              mainScreen.style.setProperty("display", "block", "important");
-              mainScreen.style.opacity = "0";
-              mainScreen.style.transition = "opacity 0.5s ease";
-              
-              setTimeout(() => {
-                mainScreen.style.opacity = "1";
-              }, 20);
-            }
-          }, 500);
-        }
-      }
-    });
+    // Desplazamos el workspace para que no colisione visualmente con el panel
+    const workspace = document.getElementById("gameWorkspace");
+    if (workspace) workspace.style.marginRight = "300px";
   }
 }
 
