@@ -315,6 +315,7 @@ button:hover {
   border: 1px solid #ccc;
   background-repeat: no-repeat;
   cursor: pointer;
+  /* Eliminamos cualquier transition fija de aquí para que el JS controle el flujo */
 }
 
 .empty {
@@ -366,5 +367,7 @@ button:hover {
   height: 22px;
   margin-right: 8px; /* separación entre ícono y texto */
 }
+
+
 
 

@@ -184,14 +184,44 @@ function renderBoard() {
 
 function movePiece(i, j) {
   const [ei, ej] = findEmpty();
+  
   if (isAdjacent(i, j, ei, ej)) {
+    // 1. OBTENER EL ELEMENTO HTML de la pieza que se va a mover
+    const pieceElement = board[i][j];
+    
+    // 2. FIRST: Registrar la posición física actual en la pantalla
+    const rectInicial = pieceElement.getBoundingClientRect();
+
+    // 3. Modificar la matriz interna del estado del juego
     const temp = board[i][j];
     board[i][j] = board[ei][ej];
     board[ei][ej] = temp;
+
+    // 4. LAST: Renderizar el tablero (esto cambia la pieza de celda en el Grid instantáneamente)
     renderBoard();
+
+    // 5. INVERT & PLAY: Animación
+    // Volvemos a buscar el elemento en el DOM tras el renderizado para aplicar el efecto
+    const newPieceElement = board[ei][ej]; // Ahora está en la posición [ei][ej]
+    const rectFinal = newPieceElement.getBoundingClientRect();
+
+    // Calcular la distancia que se movió en píxeles
+    const deltaX = rectInicial.left - rectFinal.left;
+    const deltaY = rectInicial.top - rectFinal.top;
+
+    // Desactivamos temporalmente la transición para forzar la posición inicial del truco
+    newPieceElement.style.transition = 'none';
+    newPieceElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+
+    // Forzamos un reflow del navegador para que registre el cambio sin transición
+    newPieceElement.offsetHeight; 
+
+    // Devolvemos la transición y limpiamos el transform para que "deslice" a su posición final
+    newPieceElement.style.transition = 'transform 0.25s ease-out';
+    newPieceElement.style.transform = 'translate(0, 0)';
+
+    // Actualizar contadores
     moves++;
- 
-    //document.getElementById("status").innerText = `Movimientos: ${moves}`;
     document.getElementById("moveCount").textContent = moves;
     
     checkWin();
